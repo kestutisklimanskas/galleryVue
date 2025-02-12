@@ -16,12 +16,12 @@ A simple image gallery built with Vue 3 and Bootstrap. The gallery allows users 
 
 ---
 
-## 🛠 Installation & Setup
+## Installation & Setup
 ### Clone the repository
 ```
 sh
 git clone https://github.com/kestutisklimanskas/galleryVue.git
-cd vue-gallery
+cd galleryVue
 ```
 ### Install dependencies
 ```
