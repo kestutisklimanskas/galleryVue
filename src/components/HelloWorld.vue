@@ -1,58 +1,92 @@
 <template>
-  <div class="hello">
-    <h1>{{ msg }}</h1>
-    <p>
-      For a guide and recipes on how to configure / customize this project,<br>
-      check out the
-      <a href="https://cli.vuejs.org" target="_blank" rel="noopener">vue-cli documentation</a>.
-    </p>
-    <h3>Installed CLI Plugins</h3>
-    <ul>
-      <li><a href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-babel" target="_blank" rel="noopener">babel</a></li>
-      <li><a href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-eslint" target="_blank" rel="noopener">eslint</a></li>
-    </ul>
-    <h3>Essential Links</h3>
-    <ul>
-      <li><a href="https://vuejs.org" target="_blank" rel="noopener">Core Docs</a></li>
-      <li><a href="https://forum.vuejs.org" target="_blank" rel="noopener">Forum</a></li>
-      <li><a href="https://chat.vuejs.org" target="_blank" rel="noopener">Community Chat</a></li>
-      <li><a href="https://twitter.com/vuejs" target="_blank" rel="noopener">Twitter</a></li>
-      <li><a href="https://news.vuejs.org" target="_blank" rel="noopener">News</a></li>
-    </ul>
-    <h3>Ecosystem</h3>
-    <ul>
-      <li><a href="https://router.vuejs.org" target="_blank" rel="noopener">vue-router</a></li>
-      <li><a href="https://vuex.vuejs.org" target="_blank" rel="noopener">vuex</a></li>
-      <li><a href="https://github.com/vuejs/vue-devtools#vue-devtools" target="_blank" rel="noopener">vue-devtools</a></li>
-      <li><a href="https://vue-loader.vuejs.org" target="_blank" rel="noopener">vue-loader</a></li>
-      <li><a href="https://github.com/vuejs/awesome-vue" target="_blank" rel="noopener">awesome-vue</a></li>
-    </ul>
+  <div class="container">
+    
+    <div class="row mb-3">
+      <div class="col">
+        <input v-model="filters.title" placeholder="Filter by Title" class="form-control" />
+      </div>
+      <div class="col">
+        <input v-model="filters.id" placeholder="Filter by ID" type="number" class="form-control" />
+      </div>
+      <div class="col">
+        <select v-model="filters.category" class="form-control">
+          <option value="">All Categories</option>
+          <option v-for="cat in uniqueCategories" :key="cat">{{ cat }}</option>
+        </select>
+      </div>
+    </div>
+
+    <div v-if="!selectedImage" class="row">
+      <div v-for="image in filteredImages" :key="image.id" class="col-md-3 mb-3">
+        <div class="card" @click="selectImage(image)">
+          <img :src="image.src" :alt="image.alt" class="card-img-top" />
+          <div class="card-body text-center">
+            <h6 class="card-title">{{ image.title }}</h6>
+          </div>
+        </div>
+      </div>
+    </div>
+
+   
+    <div v-else class="detail-view">
+      <button class="btn btn-secondary mb-2" @click="selectedImage = null">Back</button>
+      <div class="card">
+        <img :src="selectedImage.src" class="card-img-top" />
+        <div class="card-body">
+          <h5>{{ selectedImage.title }}</h5>
+          <p>{{ selectedImage.description }}</p>
+          <p><strong>Category:</strong> {{ selectedImage.category.join(", ") }}</p>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'HelloWorld',
-  props: {
-    msg: String
+  data() {
+    return {
+      images: [
+        { id: 1, src: "https://via.placeholder.com/150", alt: "Image 1", category: ["Nature"], title: "Sunset", description: "Beautiful sunset." },
+        { id: 2, src: "https://via.placeholder.com/150", alt: "Image 2", category: ["City"], title: "Skyscrapers", description: "Tall buildings in the city." },
+        { id: 3, src: "https://via.placeholder.com/150", alt: "Image 3", category: ["Nature"], title: "Mountain", description: "A scenic mountain view." },
+        { id: 4, src: "https://via.placeholder.com/150", alt: "Image 4", category: ["Animals"], title: "Elephant", description: "An elephant in the wild." }
+      ],
+      filters: { title: "", id: "", category: "" },
+      selectedImage: null
+    };
+  },
+  computed: {
+    filteredImages() {
+      return this.images.filter((img) => {
+        return (
+          (!this.filters.title || img.title.toLowerCase().includes(this.filters.title.toLowerCase())) &&
+          (!this.filters.id || img.id == this.filters.id) &&
+          (!this.filters.category || img.category.includes(this.filters.category))
+        );
+      });
+    },
+    uniqueCategories() {
+      return [...new Set(this.images.flatMap((img) => img.category))];
+    }
+  },
+  methods: {
+    selectImage(image) {
+      this.selectedImage = image;
+    }
   }
-}
+};
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-h3 {
-  margin: 40px 0 0;
+<style>
+.card {
+  cursor: pointer;
+  transition: transform 0.2s;
 }
-ul {
-  list-style-type: none;
-  padding: 0;
+.card:hover {
+  transform: scale(1.05);
 }
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
+.detail-view {
+  text-align: center;
 }
 </style>
