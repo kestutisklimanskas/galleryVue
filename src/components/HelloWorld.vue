@@ -47,10 +47,10 @@ export default {
   data() {
     return {
       images: [
-        { id: 1, src: "https://via.placeholder.com/150", alt: "Image 1", category: ["Nature"], title: "Sunset", description: "Beautiful sunset." },
-        { id: 2, src: "https://via.placeholder.com/150", alt: "Image 2", category: ["City"], title: "Skyscrapers", description: "Tall buildings in the city." },
-        { id: 3, src: "https://via.placeholder.com/150", alt: "Image 3", category: ["Nature"], title: "Mountain", description: "A scenic mountain view." },
-        { id: 4, src: "https://via.placeholder.com/150", alt: "Image 4", category: ["Animals"], title: "Elephant", description: "An elephant in the wild." }
+        { id: 1, src: "https://via.placeholder.com/150", alt: "Image 1", category: ["First"], title: "Picture 1", description: "Description 1" },
+        { id: 2, src: "https://via.placeholder.com/150", alt: "Image 2", category: ["Second"], title: "Picture 2", description: "Description 2" },
+        { id: 3, src: "https://via.placeholder.com/150", alt: "Image 3", category: ["Third"], title: "Picture 3", description: "Description 3" },
+        { id: 4, src: "https://via.placeholder.com/150", alt: "Image 4", category: ["Fourth"], title: "Picture 4", description: "Description 4" }
       ],
       filters: { title: "", id: "", category: "" },
       selectedImage: null
